@@ -55,9 +55,9 @@ def choose_word(user_w, used):
     to_choice = []
     for word in word_list:
         try:
-            l = word.get_text().split(":")
+            l = word.get_text().split(":", 1)
             w = l[0].lstrip().rstrip()
-            e = ":".join(l[1:]).lstrip().rstrip()
+            e = l[1]
 
             if check(w):
                 to_choice.append([w, e])
