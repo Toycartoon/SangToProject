@@ -1,12 +1,9 @@
-import chromedriver_autoinstaller as cd
 import requests
 import re
 from bs4 import BeautifulSoup as bs
 from random import choice
 from jamo import h2j, j2hcj
 from unicode import join_jamos  # https://github.com/kaniblu/hangul-utils
-
-cd.install()
 
 url = "https://wordrow.kr/시작하는-말/"
 check = lambda w: re.search("^[가-힣]{2,}$", w)
