@@ -43,6 +43,8 @@ class Worker(QThread):
                 self.parent.Word.setText(r_w)
                 self.parent.Description.setText(r_e)
                 self.parent.System_m.setText("[System] : 잠시만 기다려주세요..")
+                self.parent.word_list.addItem(w)
+
                 time.sleep(1)
                 self.parent.user_turn = False
                 result, word = choose_word(w[len(w) - 1], self.parent.used)
@@ -52,6 +54,8 @@ class Worker(QThread):
                     self.parent.Description.setText(word[1])
                     self.parent.user_turn = True
                     self.parent.s = word[0][len(word[0]) - 1]
+                    self.parent.word_list.addItem(word[0])
+
                     self.parent.System_m.setText(f"[System] : \"{self.parent.s}\"로 시작하는 단어를 입력해주세요")
                 else:
                     self.parent.System_m.setText("[System] : 승리하셨습니다! \n Enter를 눌러 다시 시작해주세요.")
@@ -59,6 +63,8 @@ class Worker(QThread):
         else:
             self.parent.Word.clear()
             self.parent.Description.clear()
+            self.parent.word_list.clear()
+
             self.parent.status = True
             self.parent.s = random.choice(["가", "나", "다", "라", "마"])   # 배열 안에 넣고 싶은 단어를 넣어주세요
             self.parent.System_m.setText(f"[System] : 다음 단어로 끝말잇기를 해주세요 \"{self.parent.s}\" "
@@ -79,6 +85,10 @@ class SangToGUI(QWidget, form):
         self.sendButton.clicked.connect(self.sendMessage)
         self.TextEditor.returnPressed.connect(self.sendMessage)
         self.Description.setWordWrap(True)
+
+        self.vscrollbar = self.word_list.verticalScrollBar()
+        self.vscrollbar.rangeChanged.connect(lambda m, x: self.vscrollbar.setValue(x)) # Auto Scrolling
+
         self.setCenter()
         self.show()
 
